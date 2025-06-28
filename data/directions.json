@@ -1,0 +1,42 @@
+[
+  {
+    "fgid": "vf",
+    "directional-statement": "Eat at least one dark green and one orange vegetable each day."
+  },
+  {
+    "fgid": "vf",
+    "directional-statement": "Choose vegetables and fruit prepared with little or no added fat, sugar or salt."
+  },
+  {
+    "fgid": "vf",
+    "directional-statement": "Have vegetables and fruit more often than juice."
+  },
+  {
+    "fgid": "gr",
+    "directional-statement": "Make at least half of your grain products whole grain each day."
+  },
+  {
+    "fgid": "gr",
+    "directional-statement": "Choose grain products that are lower in fat, sugar or salt."
+  },
+  {
+    "fgid": "mi",
+    "directional-statement": "Drink skim, 1%, or 2% milk each day."
+  },
+  {
+    "fgid": "mi",
+    "directional-statement": "Select lower fat milk alternatives."
+  },
+  {
+    "fgid": "me",
+    "directional-statement": "Have meat alternatives such as beans, lentils and tofu often."
+  },
+  {
+    "fgid": "me",
+    "directional-statement": "Eat at least two Food Guide Servings of fish each week."
+  },
+  {
+    "fgid": "me",
+    "directional-statement": "Select lean meat and alternatives prepared with little or no added fat or salt."
+  }
+]
