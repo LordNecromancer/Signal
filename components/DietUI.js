@@ -145,7 +145,7 @@ export default function DietScreen({ mainUser, family }) {
       {/* Center Panel - Diet Display */}
       <View style={{ flex: 1, backgroundColor: '#fff', padding: 10 }}>
         {/* Food Group Buttons */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15, flexWrap: 'wrap' }}>
           {userDiet.map((diet,index) => (
             <TouchableOpacity
               key={index}
