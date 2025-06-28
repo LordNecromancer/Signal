@@ -145,7 +145,7 @@ export default function DietScreen({ mainUser, family }) {
       {/* Center Panel - Diet Display */}
       <View style={{ flex: 1, backgroundColor: '#fff', padding: 10 }}>
         {/* Food Group Buttons */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 , flexWrap: 'wrap'}}>
           {userDiet.map((diet,index) => (
             <TouchableOpacity
               key={index}
@@ -153,6 +153,7 @@ export default function DietScreen({ mainUser, family }) {
                 backgroundColor: selectedFoodGroupKey === index ? '#88cc88' : '#e0e0e0',
                 padding: 10,
                 borderRadius: 20,
+                margin:10
               }}
               onPress={() => setSelectedFoodGroupKey(index)}
             >
@@ -177,7 +178,7 @@ export default function DietScreen({ mainUser, family }) {
             <View key={idx} style={{ marginTop: 15 }}>
               <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{group.fgcat}</Text>
               {group.foods?.map((foodItem, i) => (
-                <Text key={i} style={{ marginLeft: 10 }}>
+                <Text key={i} style={{ marginLeft: 10, marginTop:10 }}>
                    {foodItem.food} ({foodItem.srvg_sz})
                 </Text>
               ))}
