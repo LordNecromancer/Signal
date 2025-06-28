@@ -204,7 +204,7 @@ export default function Main() {
  </TouchableOpacity>
 
  <View style={{ flex: 1, backgroundColor: themes[theme].backgroundColor , marginTop:100}}>
-   <DietUI mainUser={user} family={includeFamily ? family : []} />
+   <DietUI mainUser={user} family={family} />
  </View>
 </View>
 )}
