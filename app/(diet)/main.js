@@ -122,7 +122,7 @@ export default function Main() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading Chat...</Text>
+        <Text style={styles.loadingText}>Loading</Text>
       </View>
     );
   }
