@@ -94,6 +94,7 @@ export default function Main() {
     } else {
       console.error('No active session or error fetching user:', error);
       setUser(null);
+      router.replace('/login');
     }
   };
 
