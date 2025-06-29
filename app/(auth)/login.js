@@ -15,7 +15,13 @@ export default function LoginPage() {
   const router= useRouter();
   const { width } = Dimensions.get('window');
 
+/*
+Login using supabas (email & password)
+An entry for the user in users table is created. It will later be filled with age, sex and family information.
+If user is created successfully, the user is directed to the main page, otherwise an error is thrown.
 
+
+*/
   const handleLogin = async () => {
     setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -52,10 +58,7 @@ export default function LoginPage() {
           }else{
             console.log(error)
           }
-
-        
       }
-
         }
       }
     
@@ -63,6 +66,9 @@ export default function LoginPage() {
     setLoading(false);
   };
 
+  /*
+  The background is a gradient. The width of form container, which displays the login form, dynamically changes based on the screen size. 
+  */
   return (
     <LinearGradient
     colors={['#74ebd5', '#9face6']} 
@@ -70,7 +76,7 @@ export default function LoginPage() {
   >
     <View style={styles.container}>
 
-    <View style={[styles.form_container, {       width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' 
+    <View style={[styles.form_container, {width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' 
  }]}>
 
 <Text style={styles.motto}>Your smart guide to healthy eating.</Text>
@@ -165,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 100, // Increase border radius for larger logo
     overflow: 'hidden',
     padding: 20, // Increase padding for spacing
-    marginBottom: 200, // Add space below the logo
+    marginBottom: 150, // Add space below the logo
   },
   logo: {
     width: 200,
