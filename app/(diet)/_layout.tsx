@@ -17,7 +17,10 @@ export default function ChatLayout() {
   const [themeVisible, setThemeVisible] = useState(false);
 
 
-
+/*
+Display the main page. The header has a title which includes the name of app (Dietitian) and a logo. The right header displays a custom component named HeaderDropDown which shows the 
+signout and themes options. The left header is nothing.
+*/
   return (
     <Stack
       screenOptions={{
@@ -37,7 +40,7 @@ export default function ChatLayout() {
           headerTitle: () => (
             <View style={styles.headerTitleContainer}>
               <Image
-                source={logo} // Path to your logo file
+                source={logo} // Path to logo file
                 style={styles.logo}
               />
               <Text style={styles.headerTitle}>Dietitian</Text>
