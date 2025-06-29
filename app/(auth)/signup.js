@@ -6,6 +6,13 @@ import { supabase } from '../supabase';
 import logo from '../../assets/images/logo2.png'
 import { LinearGradient } from 'expo-linear-gradient';
 
+
+
+/*
+Signing Up users using supabase (email & password)
+If user is signed up successfully, they are directed to login page.
+
+*/
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +50,7 @@ export default function Signup() {
     style={{ flex: 1 }}
   >
     <View style={styles.container}>
-    <View style={[styles.form_container, {       width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' }]}>
+    <View style={[styles.form_container, { width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' }]}>
     <Text style={styles.motto}>Your smart guide to healthy eating.</Text>
 
         <Image source={logo} style={styles.logo} />
@@ -153,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 100, 
     overflow: 'hidden',
     padding: 20, 
-    marginBottom: 200, 
+    marginBottom: 150, 
   },
   logo: {
     width: 200,
