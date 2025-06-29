@@ -1,9 +1,7 @@
-import { ThemeProvider } from '@/context/ThemeContext';
 import { Stack } from 'expo-router';
 
 export default function RootLayout() {
   return (
-    <ThemeProvider>
 
     <Stack>
       <Stack.Screen name="/" options={{ headerShown: false }} />
@@ -13,7 +11,6 @@ export default function RootLayout() {
 
       <Stack.Screen name="+not-found" />
     </Stack>
-    </ThemeProvider>
 
   );
 }
