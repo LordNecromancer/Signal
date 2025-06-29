@@ -43,13 +43,11 @@ export default function App() {
   if (loading) {
     // Display a loading spinner while determining the user's auth status
     return (
-      <ThemeProvider>
 
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" />
 
       </View>
-      </ThemeProvider>
 
     );
   }
