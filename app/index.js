@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { supabase } from './supabase';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
-import { ThemeProvider } from '@/context/ThemeContext';
 
 export default function App() {
   const router = useRouter();
@@ -55,11 +54,7 @@ export default function App() {
     );
   }
 
-  return (
-  <ThemeProvider>
-  <Stack />
-  </ThemeProvider>
-  );
+  return null;
 }
 
 const styles = StyleSheet.create({
