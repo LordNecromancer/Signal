@@ -122,16 +122,4 @@ data/
 
 ---
 
-## 📩 Feedback & Contribution
 
-This project is part of the **Signal Evaluation Project**.  
-If you have suggestions, feedback, or want to contribute, feel free to:
-
-- Open an [Issue](https://github.com/LordNecromancer/Signal/issues)
-- Submit a Pull Request
-
----
-
-## 📄 License
-
-MIT License © 2025
