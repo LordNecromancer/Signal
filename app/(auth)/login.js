@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, TextInput, Button, Text, StyleSheet, Dimensions, Platform , Image} from 'react-native';
 import { supabase } from '../supabase';
 import { useRouter } from 'expo-router';
