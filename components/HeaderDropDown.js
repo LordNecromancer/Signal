@@ -10,7 +10,7 @@ import { useTheme } from '../context/ThemeContext';
 export default function HeaderDropdown() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [themeMenuVisible, setThemeMenuVisible] = useState(false);
-  const { toggleTheme } = useTheme();Add commentMore actions
+  const { toggleTheme } = useTheme();
   const [theme, setTheme] = useState('light'); // Default theme
 
   const toggleTheme = (selectedTheme) => setTheme(selectedTheme);
