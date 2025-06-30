@@ -17,7 +17,7 @@ import { useTheme } from '../../context/ThemeContext';
 
 
 export default function Main() {
-  const [user, setUser] = useState(null);More actions
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
