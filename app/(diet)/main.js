@@ -11,9 +11,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import DietUI from '../../components/DietUI'
 
+import { useTheme } from '../../context/ThemeContext';
+
+
+
 
 export default function Main() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);More actions
   const [loading, setLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -25,9 +29,7 @@ export default function Main() {
 
 
   const router = useRouter();
-  const [theme, setTheme] = useState('light'); // Default theme
- 
-  const toggleTheme = (selectedTheme) => setTheme(selectedTheme); 
+  const { theme, toggleTheme } = useTheme();
   const { width } = Dimensions.get('window');
 
 
