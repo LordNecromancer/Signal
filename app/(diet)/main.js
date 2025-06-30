@@ -25,7 +25,9 @@ export default function Main() {
 
 
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
+  const [theme, setTheme] = useState('light'); // Default theme
+ 
+  const toggleTheme = (selectedTheme) => setTheme(selectedTheme); 
   const { width } = Dimensions.get('window');
 
 
