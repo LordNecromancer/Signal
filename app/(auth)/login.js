@@ -15,6 +15,37 @@ export default function LoginPage() {
   const router= useRouter();
   const { width } = Dimensions.get('window');
 
+
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      // Fetch the current user
+      const { data: session } = await supabase.auth.getSession();
+
+      if (session?.session) {
+        // If a session exists, navigate to main
+        router.replace('/main');
+      } 
+      setLoading(false);
+    };
+
+    checkAuth();
+
+    // Listen to auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        router.replace('/main');
+      } else if (event === 'SIGNED_OUT') {
+        router.replace('/login');
+      }
+    });
+
+    // Cleanup the listener
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [router]);
+
 /*
 Login using supabas (email & password)
 An entry for the user in users table is created. It will later be filled with age, sex and family information.
