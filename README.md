@@ -11,22 +11,6 @@
 
 ---
 
-## 🎯 Project Goals (Signal Evaluation)
-
-This project aims to demonstrate:
-
-- ✅ Modular and well-structured codebase
-- ✅ Good commits and GitHub best practices
-- ✅ Simplicity and adherence to React/React Native architectural principles
-- ✅ Responsive UI that adapts to screen size
-- ✅ Dynamic theming using Context API
-- ✅ DevOps principle: environment-based configuration via Supabase
-- ✅ Security: Authentication handled via Supabase
-- ✅ One tested UI component (pending if test coverage added)
-- ✅ Clear setup instructions and solid README ✅
-
----
-
 ## 🌱 Features
 
 - 🔐 **User Authentication** (Sign-up/Login) using **Supabase**
