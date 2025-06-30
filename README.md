@@ -23,13 +23,6 @@
 
 ---
 
-## 📚 User Stories
-
-> As a user, I want to see an optimal daily menu so that I can improve my health.  
-> As a family, I want to see an optimal daily menu per member so that I can improve the health of my family.
-
----
-
 ## 🚀 How to Use
 
 ### 👉 Live App
