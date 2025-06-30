@@ -4,11 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { supabase } from '../app/supabase';
+import { useTheme } from '../context/ThemeContext';
 
 
 export default function HeaderDropdown() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [themeMenuVisible, setThemeMenuVisible] = useState(false);
+  const { toggleTheme } = useTheme();Add commentMore actions
   const [theme, setTheme] = useState('light'); // Default theme
 
   const toggleTheme = (selectedTheme) => setTheme(selectedTheme);
