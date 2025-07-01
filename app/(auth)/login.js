@@ -16,7 +16,9 @@ export default function LoginPage() {
   const { width } = Dimensions.get('window');
 
 
-
+/*
+In case of loading Login page when user is already logged in, redirect user to main page.
+*/
   useEffect(() => {
     const checkAuth = async () => {
       // Fetch the current user
