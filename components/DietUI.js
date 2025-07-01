@@ -17,8 +17,11 @@ export default function DietScreen({ mainUser, family }) {
 
   const selectedPerson = people[selectedPersonIndex];
 
-  console.log(people)
-
+/*
+We define four helper functions to process the data files based on the user's (or family member's) input. The first function
+gets the ideal servings for the user. The rest of the functions iteratively add diet information so that the final data structure
+has everything it needs including food groups, categories, directional statements and servings.
+*/
 
   const getServingsFor= (person, servingsData) => {
     const ageNum = parseInt(person.age);
@@ -117,8 +120,12 @@ export default function DietScreen({ mainUser, family }) {
   userDiet= getDirections(userDiet,directionsData)
   userDiet=getFoods(userDiet,foodsData)
 
-  console.log(getServingsFor(selectedPerson,servingsData))
-  
+
+  /*
+  Display user diet here. the left 25% of screen contains user's and their family member's names as buttons.
+  Clicking on the names, processes the data based on that person's input and demonstrates their diet and serving
+  in the center panel.
+  */
 
 
   return (
