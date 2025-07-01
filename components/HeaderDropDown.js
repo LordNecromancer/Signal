@@ -15,19 +15,30 @@ export default function HeaderDropdown() {
 
   const router = useRouter();
 
+
+  /*
+  Change the theme using the toggleTheme context defined in ThemeContext context.
+  */
   const changeTheme = async (selectedTheme) => {
-    console.log("AAA", selectedTheme)
     await AsyncStorage.setItem('theme', selectedTheme); // Save theme to storage
     toggleTheme(selectedTheme); // Inform parent of theme change
     setThemeMenuVisible(false);
     setDropdownVisible(false);
   };
 
+  /*
+  Sign out using supabase.
+  */
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.replace('/login');
   };
 
+
+  /*
+  A dropdown is displayed on the right side of the header.  This is the component for it. If user clicks on it the dropdown
+  appears. By clicking on themes, a Modal page is created so the user can choose dark or light themes.
+  */
   return (
     <View>
       <TouchableOpacity
