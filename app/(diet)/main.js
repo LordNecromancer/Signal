@@ -32,7 +32,9 @@ export default function Main() {
   const { theme, toggleTheme } = useTheme();
   const { width } = Dimensions.get('window');
 
-
+/*
+Defining the light and dark themes. The currentTheme holds the name of the theme that needs to be applied.
+*/
 
   const themes = {
     light: {
@@ -49,7 +51,10 @@ export default function Main() {
   };
   let currentTheme = themes[theme];
 
-
+/*
+Load the theme when the screen loads. This is done via reading storage value which is saved when a change in theme happens. 
+The default theme is light. This makes the theme persistant. 
+*/
   useEffect(() => {
     // Load theme from storage on mount
     console.log(theme)
@@ -69,7 +74,10 @@ export default function Main() {
 
 
 
-
+/*
+On mount, get the user and the active session and set the user state based on the information that comes from the database.
+We read all the entries of the user with active session. I the active session doesn't exist, redirect user to login page.
+*/
 
   const fetchUser = async () => {
     const { data: session, error } = await supabase.auth.getSession();
@@ -102,16 +110,11 @@ export default function Main() {
   };
 
 
-
+/*
+On mount, call the fetchUser function to get user data
+*/
   useEffect(() => {
     fetchUser();
-    
-    if (user){
-    console.log("T", user)
-
-    
-    console.log("T", user)
-  }
 
   }, []);
 
@@ -120,7 +123,9 @@ export default function Main() {
 
 
 
- 
+ /*
+While the data is loading, show a spinner.
+*/
 
   if (loading) {
     return (
@@ -131,6 +136,9 @@ export default function Main() {
     );
   }
 
+  /*
+If user data doesn't exist, it means the user is not logged in. So we redirect them to login page.
+*/
   if (!user) {
     return (
       <View style={styles.centeredContainer}>
@@ -139,7 +147,11 @@ export default function Main() {
       </View>
     );
   }
-  
+
+
+  /*
+When the user submits their data, check if required fields are filled. If so, update the user state and the data in the database. 
+*/
   const handleSubmit = async () => {
     if (!name || !age || !sex) {
       alert('Please complete all fields');
@@ -169,6 +181,9 @@ export default function Main() {
     }
   };
 
+  /*
+Helper functions to add, update or delete family members.
+*/
   const handleFamilyChange = (index, field, value) => {
     const updated = [...family];
     updated[index][field] = value;
@@ -188,7 +203,13 @@ export default function Main() {
   
   
  
+/*
+If the user has submitted their data, show them their diet and servings. An edit button is also provided to edit the data.
+Text inputs for name and age and a picker for sex is provided. A switch is added so the user can decide whether they want 
+to add family member data as well. The header of the page is which contains themes and signout options is handled by 
+HeaderDropDown component. The diet is displayed by DietUI component.
 
+*/
   
 
   return (
