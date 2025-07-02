@@ -1,238 +1,195 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, TextInput, Button, Text, StyleSheet, Dimensions, Platform, Image } from 'react-native';
-//import { auth, db, createUserWithEmailAndPassword } from '../../firebase';
-import { useRouter } from 'expo-router';
-import { supabase } from '../supabase';
-import logo from '../../assets/images/logo2.png'
-import { LinearGradient } from 'expo-linear-gradient';
-
-
+import React, { useState, useEffect } from "react";
+import {
+  TouchableOpacity,
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  Image,
+} from "react-native";
+import { useRouter } from "expo-router";
+import { supabase } from "../supabase";
+import logo from "../../assets/images/logo2.png";
+import { LinearGradient } from "expo-linear-gradient";
 
 /*
 Signing Up users using supabase (email & password)
 If user is signed up successfully, they are directed to login page.
-
 */
 export default function Signup() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignedUp, setIsSignedUp] = useState(false);
-  const [isButtonDisabled, setButtonDisabled]= useState(false)
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  const { width } = Dimensions.get('window');
-
-
-/*
-In case of loading Login page when user is already logged in, redirect user to main page.
-*/
-  useEffect(() => {
-    const checkAuth = async () => {
-      // Fetch the current user
-      const { data: session } = await supabase.auth.getSession();
-
-      if (session?.session) {
-        // If a session exists, navigate to main
-        const user = session.session.user;
-        const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('user_id', user.id)
-        console.log(data)
-        console.log(user)
-        if (data && data[0]){
-          console.log(data[0])
-          router.replace('/main');
-        } 
-      } 
-      setLoading(false);
-    };
-
-    checkAuth();
-
-    // Listen to auth state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        router.replace('/main');
-      } else if (event === 'SIGNED_OUT') {
-        router.replace('/login');
-      }
-    });
-
-    // Cleanup the listener
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, [router]);
-
-  
+  const { width } = Dimensions.get("window");
 
   const handleSignup = async () => {
-    if (password!=confirmPassword) {
-      setError("Passwords don't match")
-      return
+    if (password != confirmPassword) {
+      setError("Passwords don't match");
+      return;
     }
-    
-      const { data: { user }, error } = await supabase.auth.signUp( { email, password });
-      if (!error){
-        setIsSignedUp(true)
-        router.push('/login'); 
 
-      }else{
-      setError(error.message)
-      }
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.signUp({ email, password });
+    if (!error) {
+      setIsSignedUp(true);
+      router.push("/login");
+    } else {
+      setError(error.message);
+    }
   };
 
+  if (!isSignedUp) {
+    return (
+      <LinearGradient colors={["#74ebd5", "#9face6"]} style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <View
+            style={[
+              styles.form_container,
+              { width: Platform.OS !== "web" || width < 800 ? "90%" : "33%" },
+            ]}
+          >
+            <Text style={styles.motto}>
+              Your smart guide to healthy eating.
+            </Text>
 
+            <Image source={logo} style={styles.logo} />
 
-  if(!isSignedUp){
+            <Text style={styles.header}>Create Account</Text>
 
-  return (
-    <LinearGradient
-    colors={['#74ebd5', '#9face6']} 
-    style={{ flex: 1 }}
-  >
-    <View style={styles.container}>
-    <View style={[styles.form_container, { width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' }]}>
-    <Text style={styles.motto}>Your smart guide to healthy eating.</Text>
+            <Text>Email:</Text>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              placeholder="Enter your email"
+            />
 
-        <Image source={logo} style={styles.logo} />
+            <Text>Password:</Text>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              placeholder="Enter your password"
+            />
 
+            <Text>Confirm Password:</Text>
+            <TextInput
+              style={styles.input}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+              placeholder="Confirm your password"
+            />
 
-      <Text style={styles.header}>Create Account</Text>
+            {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <Text>Email:</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        placeholder="Enter your email"
-      />
-      
-      <Text>Password:</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        placeholder="Enter your password"
-      />
-
-      <Text>Confirm Password:</Text>
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-        placeholder="Confirm your password"
-      />
-      
-      {error && <Text style={styles.errorText}>{error}</Text>}
-
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+            <TouchableOpacity style={styles.button} onPress={handleSignup}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-      <Text style={styles.loginText}>
-      Already have an account?{' '}
-        <Text style={styles.linkText} onPress={() => router.push('/login')}>
-        Login
-                </Text>
-      </Text>
-      
-
-      </View>
-    </View>
-    </LinearGradient>
-  );
-}
-
+            <Text style={styles.loginText}>
+              Already have an account?{" "}
+              <Text
+                style={styles.linkText}
+                onPress={() => router.push("/login")}
+              >
+                Login
+              </Text>
+            </Text>
+          </View>
+        </View>
+      </LinearGradient>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    backgroundColor: 'linear-gradient(to bottom, #74ebd5, #9face6)', // Gradient background
-
-
-
-
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    backgroundColor: "linear-gradient(to bottom, #74ebd5, #9face6)", // Gradient background
   },
   form_container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 20,
   },
   header: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: '#fff',
-
+    backgroundColor: "#fff",
   },
   errorText: {
-    color: 'red',
-    textAlign: 'center',
+    color: "red",
+    textAlign: "center",
     marginBottom: 10,
   },
   loginText: {
     marginTop: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   linkText: {
-    color: '#0066cc',
-    textDecorationLine: 'underline',
+    color: "#0066cc",
+    textDecorationLine: "underline",
   },
- 
+
   logoWrapper: {
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    backgroundColor: 'transparent',
-    borderRadius: 100, 
-    overflow: 'hidden',
-    padding: 20, 
-    marginBottom: 150, 
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderRadius: 100,
+    overflow: "hidden",
+    padding: 20,
+    marginBottom: 150,
   },
   logo: {
     width: 200,
     height: 200,
-    alignSelf:'center',
+    alignSelf: "center",
     borderRadius: 95,
-    resizeMode: 'cover', 
-    marginBottom: 80
+    resizeMode: "cover",
+    marginBottom: 80,
   },
   button: {
-    backgroundColor: '#9d50bb', // Vibrant coral color
+    backgroundColor: "#9d50bb", // Vibrant coral color
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   motto: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 32,
-    color: '#333',
+    color: "#333",
     marginBottom: 100,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 });
