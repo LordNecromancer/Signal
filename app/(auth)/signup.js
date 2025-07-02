@@ -37,7 +37,19 @@ In case of loading Login page when user is already logged in, redirect user to m
 
       if (session?.session) {
         // If a session exists, navigate to main
+        const user = session.session.user;
+        const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('user_id', user.id)
+        console.log(data)
+        console.log(user)
+        if (data && data[0]){
+          console.log(data[0])
+          router.replace('/main');
+        } else{
         router.replace('/main');
+        }
       } 
       setLoading(false);
     };
