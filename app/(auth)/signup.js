@@ -47,9 +47,7 @@ In case of loading Login page when user is already logged in, redirect user to m
         if (data && data[0]){
           console.log(data[0])
           router.replace('/main');
-        } else{
-        router.replace('/main');
-        }
+        } 
       } 
       setLoading(false);
     };
