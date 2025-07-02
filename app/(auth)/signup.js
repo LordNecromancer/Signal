@@ -21,6 +21,8 @@ export default function Signup() {
   const [isButtonDisabled, setButtonDisabled]= useState(false)
 
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const { width } = Dimensions.get('window');
 
