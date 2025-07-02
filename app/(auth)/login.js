@@ -1,59 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, TextInput, Button, Text, StyleSheet, Dimensions, Platform , Image} from 'react-native';
-import { supabase } from '../supabase';
-import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import logo from '../../assets/images/logo2.png'
-
-
+import React, { useState, useEffect } from "react";
+import {
+  TouchableOpacity,
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  Image,
+} from "react-native";
+import { supabase } from "../supabase";
+import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import logo from "../../assets/images/logo2.png";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const router= useRouter();
-  const { width } = Dimensions.get('window');
-
-
-/*
-In case of loading Login page when user is already logged in, redirect user to main page.
-*/
-  useEffect(() => {
-    const checkAuth = async () => {
-      // Fetch the current user
-      const { data: session } = await supabase.auth.getSession();
-
-      if (session?.session) {
-        // If a session exists, navigate to main
-        router.replace('/main');
-      } 
-      setLoading(false);
-    };
-
-    checkAuth();
-
-    // Listen to auth state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        router.replace('/main');
-      } else if (event === 'SIGNED_OUT') {
-        router.replace('/login');
-      }
-    });
-
-    // Cleanup the listener
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, [router]);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { width } = Dimensions.get("window");
 
 /*
 Login using supabas (email & password)
 An entry for the user in users table is created. It will later be filled with age, sex and family information.
 If user is created successfully, the user is directed to the main page, otherwise an error is thrown.
-
-
 */
   const handleLogin = async () => {
     setLoading(true);
@@ -69,33 +42,28 @@ If user is created successfully, the user is directed to the main page, otherwis
       if (session?.session) {
         const user = session.session.user;
         const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('user_id', user.id)
-        console.log(data)
-        if (data && data[0]){
-          console.log(data[0])
-          router.replace('/main');
+          .from("users")
+          .select("*")
+          .eq("user_id", user.id);
+        console.log(data);
+        if (data && data[0]) {
+          console.log(data[0]);
+          router.replace("/main");
         } else {
-
-          const { data, error } = await supabase  
-          .from('users')
-          .insert({
-             user_id: user.id,
-             created_at: new Date(),
-      });
-      console.log(error)
-          if (!error){
-            router.replace('/main');
-
-          }else{
-            console.log(error)
+          const { data, error } = await supabase.from("users").insert({
+            user_id: user.id,
+            created_at: new Date(),
+          });
+          console.log(error);
+          if (!error) {
+            router.replace("/main");
+          } else {
+            console.log(error);
           }
-      }
         }
       }
-    
-  
+    }
+
     setLoading(false);
   };
 
@@ -103,133 +71,136 @@ If user is created successfully, the user is directed to the main page, otherwis
   The background is a gradient. The width of form container, which displays the login form, dynamically changes based on the screen size. 
   */
   return (
-    <LinearGradient
-    colors={['#74ebd5', '#9face6']} 
-    style={{ flex: 1 }}
-  >
-    <View style={styles.container}>
+    <LinearGradient colors={["#74ebd5", "#9face6"]} style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View
+          style={[
+            styles.form_container,
+            { width: Platform.OS !== "web" || width < 800 ? "90%" : "33%" },
+          ]}
+        >
+          <Text style={styles.motto}>Your smart guide to healthy eating.</Text>
 
-    <View style={[styles.form_container, {width: (Platform.OS !== 'web' || width < 800) ? '90%' : '33%' 
- }]}>
+          <Image source={logo} style={styles.logo} />
 
-<Text style={styles.motto}>Your smart guide to healthy eating.</Text>
+          <Text style={styles.header}>Login</Text>
 
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <TouchableOpacity
+            title={loading ? "Logging In..." : "Log In"}
+            style={[styles.button, , loading && { opacity: 0.5 }]}
+            onPress={handleLogin}
+          >
+            <Text style={styles.buttonText}>
+              {loading ? "Logging In..." : "Log In"}
+            </Text>
+          </TouchableOpacity>
 
-    <Image source={logo} style={styles.logo} />
+          {/* <Button title={loading ? 'Logging In...' : 'Log In'} onPress={handleLogin} disabled={loading} /> */}
 
-      <Text style={styles.header}>Login</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      {error && <Text style={styles.errorText}>{error}</Text>}
-      <TouchableOpacity title={loading ? 'Logging In...' : 'Log In'} style={[styles.button,, loading && { opacity: 0.5 }]} onPress={handleLogin} >
-              <Text style={styles.buttonText}>{loading ? 'Logging In...' : 'Log In'}</Text>
-            </TouchableOpacity>
-
-      {/* <Button title={loading ? 'Logging In...' : 'Log In'} onPress={handleLogin} disabled={loading} /> */}
-
-      <Text style={styles.signupText}>
-        Don't have an account?{' '}
-        <Text style={styles.linkText} onPress={() => router.push('/signup')}>
-          Sign Up
-        </Text>
-      </Text>
-    </View>
-    </View>
+          <Text style={styles.signupText}>
+            Don't have an account?{" "}
+            <Text
+              style={styles.linkText}
+              onPress={() => router.push("/signup")}
+            >
+              Sign Up
+            </Text>
+          </Text>
+        </View>
+      </View>
     </LinearGradient>
   );
 }
 
 // Styling for the Login page
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     //backgroundColor: '#fff',
-    alignItems: 'center',
-    backgroundColor: 'linear-gradient(to bottom, #74ebd5, #9face6)', // Gradient background
-
-
-
-
+    alignItems: "center",
+    backgroundColor: "linear-gradient(to bottom, #74ebd5, #9face6)", // Gradient background
   },
   form_container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 20,
   },
   header: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   errorText: {
-    color: 'red',
-    textAlign: 'center',
+    color: "red",
+    textAlign: "center",
     marginBottom: 10,
   },
   signupText: {
     marginTop: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   linkText: {
-    color: '#0066cc',
-    textDecorationLine: 'underline',
+    color: "#0066cc",
+    textDecorationLine: "underline",
   },
   logoWrapper: {
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
-    backgroundColor: 'transparent',
+    justifyContent: "center", // Center vertically
+    alignItems: "center", // Center horizontally
+    backgroundColor: "transparent",
     borderRadius: 100, // Increase border radius for larger logo
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 20, // Increase padding for spacing
     marginBottom: 150, // Add space below the logo
   },
   logo: {
     width: 200,
     height: 200,
-    alignSelf:'center',
+    alignSelf: "center",
     borderRadius: 95, // Makes the logo circular
-    resizeMode: 'cover', 
-    marginBottom: 80// Ensures it covers the space proportionally
+    resizeMode: "cover",
+    marginBottom: 80, // Ensures it covers the space proportionally
   },
   button: {
-    backgroundColor: '#9d50bb', // Vibrant coral color
+    backgroundColor: "#9d50bb", // Vibrant coral color
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   motto: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 32,
-    color: '#333',
+    color: "#333",
     marginBottom: 100,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
-})
+});
