@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Stack, useRouter } from 'expo-router';
-import { supabase } from './supabase';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Stack, useRouter } from "expo-router";
+import { supabase } from "./supabase";
+import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export default function App() {
   const router = useRouter();
@@ -14,10 +15,10 @@ export default function App() {
 
       if (session?.session) {
         // If a session exists, navigate to main
-        router.replace('/main');
+        router.replace("/main");
       } else {
         // Otherwise, navigate to login
-        router.replace('/login');
+        router.replace("/login");
       }
 
       setLoading(false);
@@ -26,13 +27,15 @@ export default function App() {
     checkAuth();
 
     // Listen to auth state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        router.replace('/main');
-      } else if (event === 'SIGNED_OUT') {
-        router.replace('/login');
-      }
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_IN") {
+          router.replace("/main");
+        } else if (event === "SIGNED_OUT") {
+          router.replace("/login");
+        }
+      },
+    );
 
     // Cleanup the listener
     return () => {
@@ -43,22 +46,25 @@ export default function App() {
   if (loading) {
     // Display a loading spinner while determining the user's auth status
     return (
-
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
-
-      </View>
-
+      <ThemeProvider>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      </ThemeProvider>
     );
   }
 
-  return null;
+  return (
+    <ThemeProvider>
+      <Stack />
+    </ThemeProvider>
+  );
 }
 
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
