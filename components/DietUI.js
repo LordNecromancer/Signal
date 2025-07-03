@@ -14,11 +14,12 @@ import servingsData from "../data/servings.json";
 const screenWidth = Dimensions.get("window").width;
 
 export default function DietScreen({ mainUser, family }) {
-  const people = [mainUser, ...(family || [])];
+  
+  family= family.filter( f => f.name && f.age && f.sex)
 
+  const people = [mainUser, ...(family || [])];
   const [selectedPersonIndex, setSelectedPersonIndex] = useState(0);
   const [selectedFoodGroupKey, setSelectedFoodGroupKey] = useState(0);
-
   const selectedPerson = people[selectedPersonIndex];
 
   /*
