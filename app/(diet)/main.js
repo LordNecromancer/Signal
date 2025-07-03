@@ -165,7 +165,7 @@ When the user submits their data, check if required fields are filled. If so, up
       //email: user.email,
     };
     setUser({
-      _id: user.id,
+      _id: payload.user_id,
       name: payload.name,
       sex: payload.sex || "male",
       age: payload.age || 25,
