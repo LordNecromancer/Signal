@@ -32,7 +32,7 @@ export default function Main() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [sex, setSex] = useState("male");
-  const [family, setFamily] = useState([{ name: "", age: "", sex: "male" }]);
+  const [family, setFamily] = useState([]);
   const [includeFamily, setIncludeFamily] = useState(false);
 
   const router = useRouter();
@@ -122,6 +122,15 @@ On mount, call the fetchUser function to get user data
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (includeFamily && family.length === 0) {
+      setFamily([{ name: "", age: "", sex: "male" }]);
+    }
+    if (!includeFamily) {
+      setFamily([]);
+    }
+  }, [includeFamily]);
+
   /*
 While the data is loading, show a spinner.
 */
@@ -156,21 +165,24 @@ When the user submits their data, check if required fields are filled. If so, up
       return;
     }
 
+
     const payload = {
       user_id: user._id,
       name,
       age: parseInt(age),
       sex,
-      family: family.filter((f) => f.name && f.age && f.sex),
+      family: family.filter( f => f.name && f.age && f.sex),
       //email: user.email,
     };
+    console.log(payload)
     setUser({
       _id: user._id,
       name: payload.name,
       sex: payload.sex || "male",
       age: payload.age || 25,
-      family: payload.family || {},
+      family: payload.family || [],
     });
+    console.log(user)
 
     const { error } = await supabase
       .from("users")
@@ -178,6 +190,8 @@ When the user submits their data, check if required fields are filled. If so, up
 
     if (error) {
       console.error(error);
+      console.log(user)
+
       alert("Error saving profile");
     } else {
       setFormSubmitted(true);
